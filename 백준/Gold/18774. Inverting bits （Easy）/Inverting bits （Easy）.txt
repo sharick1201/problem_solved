@@ -1,0 +1,66 @@
+mov A 0
+ 
+get B
+shl A 1
+or A B
+
+get B
+shl A 1
+or A B
+ 
+get B
+shl A 1
+or A B
+ 
+get B
+shl A 1
+or A B
+ 
+get B
+shl A 1
+or A B
+ 
+get B
+shl A 1
+or A B
+ 
+get B
+shl A 1
+or A B
+ 
+not A
+ 
+mov B A
+shr B 6
+and B 1
+put B
+ 
+mov B A
+shr B 5
+and B 1
+put B
+ 
+mov B A
+shr B 4
+and B 1
+put B
+ 
+mov B A
+shr B 3
+and B 1
+put B
+ 
+mov B A
+shr B 2
+and B 1
+put B
+ 
+mov B A
+shr B 1
+and B 1
+put B
+ 
+mov B A
+shr B 0
+and B 1
+put B
