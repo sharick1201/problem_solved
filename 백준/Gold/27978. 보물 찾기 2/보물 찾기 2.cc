@@ -44,8 +44,9 @@ int main() {
     pq.push({start.first, start.second, 0});
 
     while (!pq.empty()) {
-        Node cur = pq.top();
-        pq.pop();
+        Node cur = pq.top(); pq.pop();
+        
+        if (dist[cur.y][cur.x] < cur.fuel) continue;
 
         // 보물에 도달한 경우
         if (cur.y == treasure.first && cur.x == treasure.second) {
