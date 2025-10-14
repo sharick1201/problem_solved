@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include <iomanip>
 using namespace std;
 
 string input;
@@ -20,9 +21,13 @@ int main() {
 	// entry.first는 나무 종 이름 (Key)
 	// entry.second는 나무의 빈도 (Value)
 
+	cout << fixed << setprecision(4); // 출력 형식 지정
+	// fixed : 소수점 이하의 자리수를 고정(고정 소수점 형식)
+	// setprecision : 출력할 소수점 이하의 자릿수를 설정
+	
 	for (auto& entry : trees) {
 		double percentage = (double(entry.second) / total) * 100;
-		printf("%s %.4f\n", entry.first.c_str(), percentage);
+		cout << entry.first << " " << percentage << "\n";
 	}
 	return 0;
 }
