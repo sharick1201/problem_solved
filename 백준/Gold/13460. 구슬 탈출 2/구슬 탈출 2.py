@@ -1,5 +1,6 @@
 from collections import deque
 
+# 방향 상수 정의
 UP, DOWN, LEFT, RIGHT = (-1, 0), (1, 0), (0, -1), (0, 1)
 
 
@@ -20,7 +21,7 @@ def bfs(rsy, rsx, bsy, bsx):
     while q:
         time, ry, rx, by, bx = q.popleft()
 
-        if time >= 10:
+        if time >= 10:  # 10번 넘게 시도하면 실패
             break
 
         for dy, dx in [UP, DOWN, LEFT, RIGHT]:
@@ -33,7 +34,7 @@ def bfs(rsy, rsx, bsy, bsx):
             if arr[nby][nbx] == 'O':
                 continue
 
-            # 빨간 구슬이 구멍에 빠지면 성공!
+            # 빨간 구슬이 구멍에 빠지면 성공
             if arr[nry][nrx] == 'O':
                 return time + 1
 
@@ -47,10 +48,10 @@ def bfs(rsy, rsx, bsy, bsx):
                     nby -= dy
                     nbx -= dx
 
-            # 방문하지 않은 상태라면 큐에 삽입
-            if (nry, nrx, nby, nbx) not in visited:
-                visited.add((nry, nrx, nby, nbx))
-                q.append((time + 1, nry, nrx, nby, nbx))
+            if not (nry == ry and nrx == rx and nby == by and nbx == bx):
+                if (nry, nrx, nby, nbx) not in visited:
+                    visited.add((nry, nrx, nby, nbx))
+                    q.append((time + 1, nry, nrx, nby, nbx))
 
     return -1
 
@@ -64,10 +65,7 @@ for i in range(N):
     for j in range(M):
         if arr[i][j] == 'R':
             sred_y, sred_x = i, j
-            arr[i][j] == '.'
-
         elif arr[i][j] == 'B':
             sblue_y, sblue_x = i, j
-            arr[i][j] == '.'
 
 print(bfs(sred_y, sred_x, sblue_y, sblue_x))
