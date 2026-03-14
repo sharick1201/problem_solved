@@ -1,15 +1,31 @@
-# 리팩토링 1
-# 주사위 회전 로직 변경 1: 철현님 방식 - 뉴 다이스 한 번에 만드는 방식 (내가 방만하게 짠 코드를 한 번 더 정리한 느낌. 깔끔)
-# ans type 변경: 디버깅용으로 배열로 해둠 -> 정답 맞췄으니까 효율성을 위해 정수로 바꿈  188 ms -> 196 ms (???? 머쓱)
+from collections import deque
 
+# 리팩토링 2
+# 주사위 회전 로직 변경 2: (선)헌석님 방식(덱 2개를 활용해 깔끔하게 rotate) => 하드코딩할 게 없어짐
+
+# 헐 완전깔끔... It works... and it's pretty
 def roll_dice(dice_dir):
-    global dice
-    rolled_dice = [[dice[5], dice[1], dice[4], dice[3], dice[0], dice[2]],
-                   [dice[3], dice[0], dice[1], dice[2], dice[4], dice[5]],
-                   [dice[4], dice[1], dice[5], dice[3], dice[2], dice[0]],
-                   [dice[1], dice[2], dice[3], dice[0], dice[4], dice[5]]]
-    
-    dice = rolled_dice[dice_dir]
+    global dice_horizontal, dice_vertical
+    # 오른쪽으로
+    if dice_dir == 0:
+        dice_horizontal.rotate(1)
+        dice_vertical[0], dice_vertical[2] = dice_horizontal[0], dice_horizontal[2]
+
+    # 아래로
+    elif dice_dir == 1:
+        dice_vertical.rotate(1)
+        dice_horizontal[0], dice_horizontal[2] = dice_vertical[0], dice_vertical[2]
+
+    # 왼쪽으로
+    elif dice_dir == 2:
+        dice_horizontal.rotate(-1)
+        dice_vertical[0], dice_vertical[2] = dice_horizontal[0], dice_horizontal[2]
+
+    # 위로
+    elif dice_dir == 3:
+        dice_vertical.rotate(-1)
+        dice_horizontal[0], dice_horizontal[2] = dice_vertical[0], dice_vertical[2]
+
 
 
 # 값이 arr[dice_y][dice_x]랑 같은 칸의 갯수를 세는 함수
@@ -48,9 +64,12 @@ arr = [list(map(int, input().split())) for _ in range(N)]  # N x M
 dy = [0, 1, 0, -1]
 dx = [1, 0, -1, 0]
 
-    # idx: 위치 / val: 주사위 눈
-    # 바닥,상,천장,하,좌,우(우=동쪽)
-dice = [6, 2, 1, 5, 4, 3]
+# # 2
+# 4 1 3
+# # 5
+# # 6
+dice_horizontal = deque([1, 3, 6, 4])
+dice_vertical = deque([1, 5, 6, 2])
 dir_idx = 0
 dice_y, dice_x = 0, 0
 
@@ -83,9 +102,10 @@ for _ in range(K):
     ans += same_val_cnt * target_val
 
     """ 3. 주사위의 다음 이동 방향 결정 """
-    if dice[0] > arr[dice_y][dice_x]:
+    if dice_horizontal[2] > arr[dice_y][dice_x]:
         dir_idx = (dir_idx + 1) % 4
-    elif dice[0] < arr[dice_y][dice_x]:
+    elif dice_horizontal[2] < arr[dice_y][dice_x]:
         dir_idx = (dir_idx - 1) % 4
 
 print(ans)
+
